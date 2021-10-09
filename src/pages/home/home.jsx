@@ -1,10 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import debounce from 'lodash.debounce';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import debounce from 'lodash.debounce';
 
 import WeatherService from '../../services/weather.service';
 import ShazamService from '../../services/shazam.service';
+
+import { savePlaylist } from '../../state/action-creators';
 
 function Home() {
   const [search, setSearch] = useState('');
@@ -12,6 +15,7 @@ function Home() {
   const [temperature, setTemperature] = useState(0);
   const [songCategory, setSongCategory] = useState('');
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const tempFilter = query => {
     if (!query) return setPlaylist([]);
@@ -69,6 +73,58 @@ function Home() {
           tempFilter(e.target.value);
         }}
       />
+      <div className="info">
+        {loading && <p>Carregando...</p>}
+        {playlist.length > 0 && (<>
+          <h2 className="location">
+            <i className="fas fa-street-view"></i>{search}
+          </h2>
+          {temperature && <h1 className="temperature">{temperature}C°</h1>}
+
+          <div className="card">
+            <div className="card-body">
+              <h5 className="card-title">
+                Lista de músicas para o clima atual
+              </h5>
+              <p className="card-text">
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    dispatch(savePlaylist({
+                      added_at: new Date(),
+                      temperature,
+                      city: search,
+                      song_category: songCategory,
+                      playlist: playlist
+                    }));
+                    toast.success('Adicionada às suas playlists favoritas');
+                  }}
+                >
+                  Adicionar aos Favoritos
+                </button>
+              </p>
+            </div>
+            <div className="card-body">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Song</th>
+                    <th>Artist</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {playlist.map(item => (
+                    <tr key={item.key}>
+                      <td>{item.song}</td>
+                      <td>{item.artist}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>)}
+      </div>
     </>
   );
 }
