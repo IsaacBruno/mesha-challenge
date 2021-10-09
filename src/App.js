@@ -1,6 +1,8 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import Home from './pages/home/home';
 import Playlists from './pages/playlists/playlists';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 function App() {
@@ -12,6 +14,7 @@ function App() {
           <Route exact path="/playlists" component={Playlists} />
         </Switch>
       </BrowserRouter>
+      <ToastContainer />
     </div>
   );
 }
