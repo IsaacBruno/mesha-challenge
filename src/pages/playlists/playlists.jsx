@@ -8,7 +8,7 @@ function Playlists() {
   const playlists = useSelector(state => state.playlists.playlists);
 
   return (
-    <>
+    <div className="box">
       <h3>Listas de músicas favoritas</h3>
       <Link to="/">Voltar para a página inicial</Link>
       {playlists.length ? (
@@ -20,7 +20,7 @@ function Playlists() {
       ) : (
         <h4>Não há listas favoritadas</h4>
       )}
-    </>
+    </div>
   );
 }
 

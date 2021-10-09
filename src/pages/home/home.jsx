@@ -59,7 +59,7 @@ function Home() {
   }, []);
 
   return (
-    <>
+    <div className="box">
       <h3>Weather Song App</h3>
       <h5>Curta suas músicas de acordo com o clima de sua cidade</h5>
       <Link to="/playlists">Acessar playlists curtidas</Link>
@@ -125,7 +125,7 @@ function Home() {
           </div>
         </>)}
       </div>
-    </>
+    </div>
   );
 }
 
